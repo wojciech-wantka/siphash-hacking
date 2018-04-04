@@ -10,7 +10,7 @@ def reduce(array):
     return reduction
 
 
-def rol(number, bits, length):
+def rotate(number, bits, length):
     array = list(bin(number)[2:])
     array.reverse()
     array += ['0'] * (length - len(array))
@@ -18,4 +18,13 @@ def rol(number, bits, length):
     d.rotate(bits)
     array = list(d)
     array.reverse()
+
     return int(''.join(array), 2)
+
+
+def rol(number, bits, length):
+    return rotate(number, bits, length)
+
+
+def ror(number, bits, length):
+    return rotate(number, -bits, length)

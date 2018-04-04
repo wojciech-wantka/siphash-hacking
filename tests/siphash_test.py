@@ -49,8 +49,5 @@ def main():
 
     for test_case in test_data:
         _, output = siphash(test_case[0], test_case[1], test_case[2], test_case[3])
+
         assert output == test_case[4]
-
-
-if __name__ == '__main__':
-    main()

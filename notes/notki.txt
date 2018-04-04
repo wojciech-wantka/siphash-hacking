@@ -1,0 +1,53 @@
+1. linearyzacja - gdyby zamienic dodwania na xory?
+
+kiedy dodawanie = xor? => jak nie ma przeniesien (tzn. jak na tym samym bicie jest 1)
+
+czyli ten model w 1/4 sie rozni
+
+jak 32-bitowe, to P(dodawanie = xor) = (3/4) ^ 32
+
+mozna to poprawic, jak jest malo jedynek (bo wtedy jest mniejsza szansa, ze sie zejda na jednej pozycji)
+
+****
+
+1. znalezc taka wiadomosc (w liniowym modelu), ktora daje jak najmniejsza liczbe 1 w roznicach
+
+poniewaz w liniowym modelu jest L(x XOR y) = L(x) XOR L(y), to historia H jest f. liniowa. mozna wiec
+obliczyc historie
+
+H(x_0) x_0 = 100000...
+H(x_1) x_1 = 010000..
+H(x_2) x_2 = 001000...
+
+H(x_i XOR x_j) = H(x_i) XOR H(x_j)
+
+historia = differential path (sciezka roznicowa)
+
+differential path jest kombinacja liniowa obrazow.
+
+potem trzeba wrocic z modelu liniowego do oryginalnego (dlatego trzeba miec malo jedynek)
+
+****
+
+znany problem: "finding minimum weight codeword in a linear code"
+    * kody korekcyjne
+    * systemy oparte o kody korekcyjne sa odporne na ataki kwantowe
+
+magma, sage := potrafia szukac tego
+
+obserwacja:
+    rundy sa odwracalne
+
+inverse_round (zaczynamy od srodka i liczymy troche do przodu, troche do tylu)
+
+*****
+
+1. przerobienie na xor
+2. napisac inverse_round
+
+SageMath
+NTL (Number Theory Library)
+
+inverse_sip(sip(x)) = x
+
+sieci Feistela

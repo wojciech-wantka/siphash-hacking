@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 from differential_cryptoanalysis.return_differences import return_differences
 
 

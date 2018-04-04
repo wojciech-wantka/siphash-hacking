@@ -1,8 +1,8 @@
 from math import ceil
 from operator import xor
 
+from siphash.sip_round import sip_round
 from siphash.utils import reduce
-from siphash.utils import rol
 
 
 def init_internal_state(key):
@@ -32,23 +32,6 @@ def parse(message):
     parsed_message[parsed_message_length - 1] = reduce(message[len(message) - strip_length: len(message)] + [0] * (8 - strip_length - 1) + [end])
 
     return parsed_message
-
-
-def sip_round(state):
-    state[0] = (state[0] + state[1]) % (1 << 64)
-    state[2] = (state[2] + state[3]) % (1 << 64)
-    state[1] = rol(state[1], 13, 64)
-    state[3] = rol(state[3], 16, 64)
-    state[1] = xor(state[1], state[0])
-    state[3] = xor(state[3], state[2])
-    state[0] = rol(state[0], 32, 64)
-    state[2] = (state[2] + state[1]) % (1 << 64)
-    state[0] = (state[0] + state[3]) % (1 << 64)
-    state[1] = rol(state[1], 17, 64)
-    state[3] = rol(state[3], 21, 64)
-    state[1] = xor(state[1], state[2])
-    state[3] = xor(state[3], state[0])
-    state[2] = rol(state[2], 32, 64)
 
 
 def compress(state, parsed_message, compression_rounds, history):

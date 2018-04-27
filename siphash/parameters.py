@@ -1,4 +1,5 @@
 class Parameters:
+    hash_length = 64
     state_word_length = 64
     modulus = 1 << state_word_length
 

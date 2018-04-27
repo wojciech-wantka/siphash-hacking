@@ -1,7 +1,10 @@
 from math import ceil
 from operator import xor
 
+from siphash.mode import Mode
+
 from siphash.sip_round import sip_round
+from siphash.sip_round import sip_round_linearized
 from siphash.utils import reduce
 
 
@@ -34,32 +37,42 @@ def parse(message):
     return parsed_message
 
 
-def compress(state, parsed_message, compression_rounds, history):
+def compress(state, parsed_message, compression_rounds, sip_round_function, history):
     for parsed_message_word in parsed_message:
         state[3] = xor(state[3], parsed_message_word)
 
         for _ in range(compression_rounds):
-            sip_round(state)
+            sip_round_function(state)
             history.append(state.copy())
 
         state[0] = xor(state[0], parsed_message_word)
 
 
-def finalize(state, finalization_rounds, history):
+def finalize(state, finalization_rounds, sip_round_function, history):
     state[2] = xor(state[2], 0xff)
 
     for _ in range(finalization_rounds):
-        sip_round(state)
+        sip_round_function(state)
         history.append(state.copy())
 
 
-def siphash(key, message, compression_rounds, finalization_rounds):
+def siphash_generic(key, message, compression_rounds, finalization_rounds, mode):
+    sip_round_function = sip_round if mode == Mode.STANDARD else sip_round_linearized
+
     history = []
     state = init_internal_state(key)
     history.append(state.copy())
     parsed_message = parse(message)
-    compress(state, parsed_message, compression_rounds, history)
-    finalize(state, finalization_rounds, history)
+    compress(state, parsed_message, compression_rounds, sip_round_function, history)
+    finalize(state, finalization_rounds, sip_round_function, history)
     output = xor(xor(state[0], state[1]), xor(state[2], state[3]))
 
     return history, output
+
+
+def siphash(key, message, compression_rounds, finalization_rounds):
+    return siphash_generic(key, message, compression_rounds, finalization_rounds, Mode.STANDARD)
+
+
+def siphash_linearized(key, message, compression_rounds, finalization_rounds):
+    return siphash_generic(key, message, compression_rounds, finalization_rounds, Mode.LINEARIZED)

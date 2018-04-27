@@ -31,3 +31,7 @@ def sip_round_generic(state, mode):
 
 def sip_round(state):
     sip_round_generic(state, Mode.STANDARD)
+
+
+def sip_round_linearized(state):
+    sip_round_generic(state, Mode.LINEARIZED)

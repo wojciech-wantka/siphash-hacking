@@ -1,7 +1,7 @@
 from differential_cryptoanalysis.return_differences import return_differences
 
 
-def disp_differences(differences):
+def display_differences(differences):
     for difference in differences:
         print('{:064b} {:064b} {:064b} {:064b}'.format(difference[0], difference[1], difference[2], difference[3]))
 
@@ -15,7 +15,7 @@ def main():
 
     differences = return_differences(key, compression_rounds, finalization_rounds, message_1, message_2)
 
-    disp_differences(differences)
+    display_differences(differences)
 
 
 if __name__ == '__main__':

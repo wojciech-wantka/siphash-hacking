@@ -59,3 +59,9 @@ Observation: Sip rounds are invertible, so we can begin from middle and then com
 General remarks:
 
 * Siphash is an example of more general class of functions -- Feistel ciphers.
+* Modular addition is non-linear
+* In random linear code the problem to find low weight codeword is hard to solve (for minimal weight codeword this problem is of NPC class)
+
+Abbreviations:
+
+* MWCILC - minimum weight codeword in a linear code
